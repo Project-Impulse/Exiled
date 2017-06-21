@@ -230,49 +230,6 @@ exports.commands = {
 		);
 	},
 
-	//Credits to Snaquaza on these feature and other DragonHeaven developers/contributers
-	'fakemonlist': 'fakemonslist',
-	fakemonslist: function () {
-		if (!this.runBroadcast()) return;
-		let buf = `<div class=infobox-limited><center><h2>List Of Fakemons</h2></center>`;
-		let fakemonsDex = require('../mods/fakemons/pokedex.js').BattlePokedex;
-		if (!fakemonsDex) return this.errorReply("Error Fetching Fakemons Data.");
-		Object.values(fakemonsDex).forEach(mon => {
-			buf += `<button name="send" value="/fakemondata ${mon.species}" style="background:none;border:none;">${mon.species}</button><br>`;
-		});
-		this.sendReplyBox(`${buf}</div>`);
-	},
-	fakemonslisthelp: ["/fakemonslist - Shows the list of Fakemons."],
-
-	learnfakemons: function (target) {
-		if (!this.runBroadcast()) return;
-		let learnfakemons = Dex.mod('fakemons').data.Learnsets, movefakemons = Dex.mod('fakemons').data.Movedex, dexfakemons = Dex.mod('fakemons').data.Pokedex;
-		if (!target || toId(target) === '') return this.sendReply("/learnfakemons: Shows the whether a Pokemon can learn a move, including Pokemon and Moves from fakemons.");
-		let targets = target.split(','), mon = targets[0], move = targets[1];
-		if (!mon || !dexfakemons[toId(mon)]) return this.errorReply("Error: Pokemon not found");
-		if (!learnfakemons[toId(mon)]) return this.errorReply("Error: Learnset not found");
-		if (!move || !movefakemons[toId(move)]) return this.errorReply("Error: Move not found");
-		mon = dexfakemons[toId(mon)];
-		move = movefakemons[toId(move)];
-		if (learnfakemons[toId(mon.species)].learnset[toId(move.name)]) {
-			return this.sendReplyBox("In Fakemons, " + mon.species + ' <font color="green"><u><b>can<b><u></font> learn ' + move.name);
-		}
-		return this.sendReplyBox("In Fakemons, " + mon.species + ' <font color="red"><u><b>can\'t<b><u></font> learn ' + move.name);
-	},
-
-	'!bugs': true,
-	bugs: function (room) {
-		if (!this.runBroadcast()) return;
-		if (room && room.battle) {
-			this.sendReplyBox("<center><button name=\"saveReplay\"><i class=\"fa fa-upload\"></i> Save Replay</button> &mdash; <a href=\"https://www.smogon.com/forums/threads/3520646/\">Questions</a> &mdash; <a href=\"https://www.smogon.com/forums/threads/3469932/\">Bug Reports</a></center>");
-		} else {
-			this.sendReplyBox(
-				"Have a replay showcasing a bug on Exiled?<br />" +
-				"- <a href=\"http://exiledps.boards.net/thread/5/bug-reports/\">Bug Reports</a>"
-			);
-		}
-	},
-
 	'!roomhelp': true,
 	roomhelp: function (room) {
 		if (!this.canBroadcast('!htmlbox')) return;
@@ -332,7 +289,7 @@ exports.commands = {
 			if (!this.runBroadcast()) return;
 			this.sendReplyBox("Please follow the rules:<br />" +
 				(room && room.rulesLink ? "- <a href=\"" + Chat.escapeHTML(room.rulesLink) + "\">" + Chat.escapeHTML(room.title) + " room rules</a><br />" : "") +
-				"- <a href=\"http://exiledps.boards.net/thread/4/exiled-rules\">" + (room && room.rulesLink ? "Global rules" : "Rules") + "</a>");
+				"- <a href=\"http://pokemonshowdown.com/rules\">" + (room && room.rulesLink ? "Global rules" : "Rules") + "</a>");
 			return;
 		}
 		if (!room) {
@@ -357,21 +314,19 @@ exports.commands = {
 
 	servercredits: 'credits',
 	credits: function (target, room, user) {
-		let popup = "|html|" + "<font size=5 color=#F7189F><u><b>Exiled Credits:</b></u></font><br />" +
+		let popup = "|html|" + "<font size=5 color=#F7189F><u><b>Impulse Credits</b></u></font><br />" +
 			"<br />" +
 			"<u><b>Server Maintainers:</u></b><br />" +
-			"- " + Exiled.nameColor('Insist', true) + " (Owner, Sysadmin, Main Developer)<br />" +
-			"- " + Exiled.nameColor('Mewth', true) + " (Co-Owner, Sysadmin, Developer)<br />" +
+			"- " + Exiled.nameColor('Dranzardite', true) + " (Owner)<br />" +
+			"- " + Exiled.nameColor('Prince Sky', true) + " (Co-Owner, Sysadmin, Developer)<br />" +
 			"<br />" +
 			"<u><b>Major Contributors:</b></u><br />" +
-			"- " + Exiled.nameColor('AlfaStorm', true) + " (Developer)<br />" +
-			"- " + Exiled.nameColor('Back At My Day', true) + " (Developer)<br />" +
+			"- " + Exiled.nameColor('Alpha Shivam', true) + " (Host)<br />" +
+			"- " + Exiled.nameColor('Kevin Neo Ryan', true) + " (Developer)<br />" +
 			"<br />" +
 			"<u><b>Retired Staff:</b></u><br />" +
-			"- " + Exiled.nameColor('Princess Teddiursa', true) + " (Former Owner, Developer, CSS Developments)<br />" +
-			"- " + Exiled.nameColor('Volco', true) + " (Former Owner, and Developer)<br />" +
-			"- " + Exiled.nameColor('Alpha Hawk', true) + " (Former Developer)<br />" +
-			"- " + Exiled.nameColor('VXN', true) + " (Former Developer)<br />" +
+			"- " + Exiled.nameColor('Kevin Neo Ryan', true) + " (Former Administrator)<br />" +
+			"- " + Exiled.nameColor('General Draco', true) + " (CSS Development)<br />" +
 			"<br />" +
 			"<u><b>Special Thanks:</b></u><br />" +
 			"- Our Staff Members<br />" +
