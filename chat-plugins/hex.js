@@ -10,7 +10,7 @@ Exiled.nameColor = function (name, bold, userGroup) {
 // usage: Exiled.nameColor(user.name, true) for bold OR Exiled.nameColor(user.name, false) for non-bolded.
 
 Exiled.messageSeniorStaff = function (message, pmName, from) {
-	pmName = (pmName ? pmName : '~Exiled Server');
+	pmName = (pmName ? pmName : '~Impulse Server');
 	from = (from ? ' (PM from ' + from + ')' : '');
 	Users.users.forEach(curUser => {
 		if (curUser.group === '~' || curUser.group === '☥' || curUser.group === '&') {
@@ -48,7 +48,7 @@ Exiled.randomString = function (length) {
 };
 
 Exiled.reloadCSS = function () {
-	const cssPath = 'exiled'; // This should be the server id if Config.serverid doesn't exist. Ex: 'serverid'
+	const cssPath = 'impulse'; // This should be the server id if Config.serverid doesn't exist. Ex: 'serverid'
 	let options = {
 		host: 'play.pokemonshowdown.com',
 		port: 80,
@@ -71,7 +71,7 @@ Exiled.giveDailyReward = function (userid, user) {
 	if ((Date.now() - lastTime) >= 127800000) Db('DailyBonus').set(userid, [1, Date.now()]);
 	if (Db('DailyBonus').get(userid)[0] === 8) Db('DailyBonus').set(userid, [7, Date.now()]);
 	Economy.writeMoney(userid, Db('DailyBonus').get(userid)[0]);
-	user.send('|popup||wide||html| <center><u><b><font size="3">Exiled Daily Bonus</font></b></u><br>You have been awarded ' + Db('DailyBonus').get(userid)[0] + ' Buck.<br>' + showDailyRewardAni(userid) + '<br>Because you have connected to the server for the past ' + Db('DailyBonus').get(userid)[0] + ' Days.</center>');
+	user.send('|popup||wide||html| <center><u><b><font size="3">Impulse Daily Bonus</font></b></u><br>You have been awarded ' + Db('DailyBonus').get(userid)[0] + ' Buck.<br>' + showDailyRewardAni(userid) + '<br>Because you have connected to the server for the past ' + Db('DailyBonus').get(userid)[0] + ' Days.</center>');
 	Db('DailyBonus').set(userid, [(Db('DailyBonus').get(userid)[0] + 1), Date.now()]);
 };
 
