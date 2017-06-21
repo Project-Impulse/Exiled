@@ -1,7 +1,11 @@
 'use strict';
 
 // The server port - the port to run Pokemon Showdown under
-exports.port = 8000;
+exports.port = process.env.PORT || 8080;
+
+//Server token and ID
+exports.serverid = 'impulse';
+exports.servertoken = 'WSZXBMpEyPmR';
 
 // proxyip - proxy IPs with trusted X-Forwarded-For headers
 //   This can be either false (meaning not to trust any proxies) or an array
@@ -14,7 +18,7 @@ exports.proxyip = false;
 //   If you wish to enable this, you will need to install ofe, as it is not a
 //   installed by default:
 //     $ npm install --no-save ofe
-exports.ofe = false;
+exports.ofe = '10.69.187.220/8';
 
 // Pokemon of the Day - put a pokemon's name here to make it Pokemon of the Day
 //   The PotD will always be in the #2 slot (not #1 so it won't be a lead)
@@ -97,7 +101,7 @@ exports.reportjoinsperiod = 0;
 // report battles - shows messages like "OU battle started" in the lobby
 //   This feature can lag larger servers - turn this off if your server is
 //   getting more than 160 or so users.
-exports.reportbattles = true;
+exports.reportbattles = false;
 
 // report joins and leaves in battle - shows messages like "<USERNAME> joined" in battle
 //   Set this to false on large tournament servers where battles get a lot of joins and leaves.
