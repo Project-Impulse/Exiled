@@ -33,7 +33,7 @@ function Profile(isOnline, user, image) {
 	this.image = image;
 
 	this.username = Chat.escapeHTML(this.isOnline ? this.user.name : this.user);
-	this.url = Config.avatarurl || '';
+	this.url = 'http://dedicatedrpsever-lustyash.c9users.io';
 }
 
 /**
@@ -107,13 +107,13 @@ function currencyName(amount) {
 
 Profile.prototype.avatar = function () {
 	if (this.isOnline) {
-		if (typeof this.image === 'string') return img('https://exiled-server-returningavenger.c9users.io/avatars/' + this.image);
+		if (typeof this.image === 'string') return img(this.url +':80/avatars/' + this.image);
 		return img('http://play.pokemonshowdown.com/sprites/trainers/' + this.image + '.png');
 	}
 	for (let name in Config.customAvatars) {
 		if (this.username === name) {
 			console.log(Config.customAvatars[name]);
-			return img('http://exiled-server-returning.c9users.io/avatars/' + Config.customAvatars[name]);
+			return img(this.url + ':' + Condig.port + '/avatars/' + Config.customAvatars[name]);
 		}
 	}
 	let selectedSprite = trainersprites[Math.floor(Math.random() * trainersprites.length)];
