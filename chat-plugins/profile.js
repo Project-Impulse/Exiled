@@ -334,37 +334,37 @@ Profile.prototype.title = function (person) {
 	if (!Db('titles').has(person)) return '';
 	return SPACE + title;
 };
-
+/*
 Profile.prototype.quote = function (person) {
 	let quote = Db('quotes').get(person);
 	if (!Db('quotes').has(person)) return label('Quote') + 'This user does not have a quote set.';
 	return label('Quote') + '<b><i>"' + quote + '"</i></b>';
 };
-
+*/
 Profile.prototype.nature = function (kiddo) {
 	let nature = Db('nature').get(kiddo);
-	if (!Db('nature').has(kiddo)) return label('Nature') + 'Not Set.';
+	if (!Db('nature').has(kiddo)) return label('Nature') + '';
 	return label('Nature') + '<font color="#ffffff">' + '<b><i>' + nature + '</i></b></font>';
 };
 
 Profile.prototype.pokemon = function (kiddo) {
 	let pkmn = Db('pokemon').get(kiddo);
-	if (!Db('pokemon').has(kiddo)) return label('Favorite Pokemon') + 'Not Set.';
-	return label('Favorite Pokemon') + '<b><i>' + pkmn + '</i></b>';
+	if (!Db('pokemon').has(kiddo)) return label('Fav-Pokemon') + '';
+	return label('F-Pokemon') + '<b><i>' + pkmn + '</i></b>';
 };
 
-Profile.prototype.aboutme = function (person) {
-	let aboutme = Db('aboutme').get(person);
-	if (!Db('aboutme').has(person)) return label('About Me') + 'This user does not have a bio set.';
-	return label('About Me') + '<b><i>"' + aboutme + '"</i></b>';
+Profile.prototype.hobby = function (person) {
+	let hobby = Db('hobby').get(person);
+	if (!Db('hobby').has(person)) return label('Hobbies') + '';
+	return label('Hobbies') + '<b><i>"' + hobby + '"</i></b>';
 };
-
-Profile.prototype.setfriendcode = function (person) {
-	let setfriendcode = Db('friendcode').get(person);
-	if (!Db('friendcode').has(person)) return label('Friend Code') + 'This user does not have a friend code set.';
-	return label('Friend Code') + '<b><i>"' + setfriendcode + '"</i></b>';
+/*
+Profile.prototype.setlocation = function (person) {
+	let setlocation = Db('location').get(person);
+	if (!Db('location').has(person)) return label('Location') + '';
+	return label('Location') + '<b><i>"' + setfriendcode + '"</i></b>';
 };
-
+*/
 Profile.prototype.background = function (buddy) {
 	let bg = Db('backgrounds').get(buddy);
 	if (!Db('backgrounds').has(buddy)) return '<div>';
@@ -402,11 +402,9 @@ Profile.prototype.show = function (callback) {
 		SPACE + this.group() + SPACE + this.dev(userid) + BR +
 		SPACE + this.money(Db('money').get(userid, 0)) + BR +
 		SPACE + this.seen(Db('seen').get(userid)) + BR +
-		SPACE + this.pgo(userid) + BR +
-		SPACE + this.nature(userid) + BR +
-		SPACE + this.type(userid) + BR +
-		SPACE + this.pokemon(userid) + BR +
-		SPACE + this.setfriendcode(userid) + BR +
+		/* this.pgo(userid) + BR + */
+		SPACE + this.nature(userid) + SPACE + this.type(userid) + BR +
+		SPACE + this.pokemon(userid) + SPACE + this.sethobby(userid) + BR +
 		this.pet(userid) +
 		SPACE + this.badges(userid) + this.team(userid) +
 		this.song(userid) +
@@ -501,6 +499,7 @@ exports.commands = {
 			'For example: Mega Venusaur would be 003-Mega');
 	},
 
+/*
 	jointeam: function (target, room, user) {
 		let team = target;
 		if (!team) return this.errorReply('INCORRECT USAGE. CORRECT USAGE: /jointeam (team name)');
@@ -509,7 +508,7 @@ exports.commands = {
 		Db('pgo').set(user.userid, team);
 		this.sendReply('You have successfully joined ' + team);
 	},
-
+*/
 	nature: function (target) {
 		let parts = target.split(', ');
 		if (!this.can('broadcast')) return false;
@@ -660,17 +659,17 @@ exports.commands = {
 	titlehelp: ["/title set, user, hex, title - Sets a users title",
 		"/title delete, user - Deletes a users title.",
 	],
-
+/*
 	quote: function (target, room, user) {
 		if (!target) return this.errorReply('USAGE: /quote (quote)');
 		Db('quotes').set(user.userid, target);
 		this.sendReply('|html|Your quote has been set to : <b><i>' + target + '</i></b>');
 	},
-
-	aboutme: function (target, room, user) {
-		if (!target) return this.errorReply('The correct usage of this command is: /aboutme (bio message)');
-		Db('aboutme').set(user.userid, target);
-		this.sendReply('|html|Your bio has been set to: <b><i>' + target + '</i></b>');
+*/
+        sethobby: function (target, room, user) {
+		if (!target) return this.errorReply('The correct usage of this command is: /sethobby (Hobbies)');
+		Db('hobby').set(user.userid, target);
+		this.sendReply('|html|Your hobbies has been set to: <b><i>' + target + '</i></b>');
 	},
 
 	bg: 'setbg',
@@ -810,10 +809,10 @@ exports.commands = {
 		this.sendReply('|html|' + display);
 	},
 
-	setfriendcode: function (target, room, user) {
-		if (!target) return this.errorReply('USAGE: /setfriendcode (code)');
-		Db('friendcode').set(user.userid, target);
-		return this.sendReply('You have succesfully set your friend code to : ' + target);
+	setlocation: function (target, room, user) {
+		if (!target) return this.errorReply('USAGE: /setlocation (code)');
+		Db('location').set(user.userid, target);
+		return this.sendReply('You have succesfully set your location to : ' + target);
 	},
 
 	profilehelp: function (target, room, user) {
@@ -822,7 +821,6 @@ exports.commands = {
 		display += '<b>/title set, user, hex, (title)</b> - Sets a user\'s title.<br>';
 		display += '<b>/pokemon set, user, hex, (pokemon name)</b> - Sets a user\'s favorite Pokemon.<br>';
 		display += '<b>/type set, user, hex</b> - Sets a user\'s type.<br>';
-		display += '<b>/jointeam (Pokemon Go Team)</b> - Join your Pokemon Go Team.<br>';
 		display += '<b>/setmusic (user), (link must be mp3 file), (title of song)</b> - Sets a music box on a user\'s profile.<br>';
 		display += '<b>/setpet (user), (spot 1 or 2), (Pokemon name)</b> - Sets a user\'s profile pet.<br>';
 		display += '<b>/setmusic (user), (link must be mp3 file), (title of song)</b> - Sets a music box on a user\'s profile.<br>';
